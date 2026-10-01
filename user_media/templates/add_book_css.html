@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% block title %}Add Book{% endblock %}
+{% block content %}
+<div class="container mt-4">
+  <h1 class="mb-4 text-primary">Add a New Book</h1>
+  <!-- Contact Form -->
+  <form method="POST" class="border p-4 rounded bg-light shadow-sm">
+    {% csrf_token %}
+    <div class="mb-3">
+      {{ form.as_p }}
+    </div>
+    <button type="submit" class="btn btn-success">Add Book</button>
+  </form>
+
+  <!-- Success Message -->
+  {% if success %}
+  <div class="alert alert-success mt-4" role="alert">
+    <strong>Success!</strong> Your book has been successfully added.
+  </div>
+  
+  <!-- Display Added Contact -->
+  <div class="card mt-3 shadow-sm">
+    <div class="card-body">
+      <h5 class="card-title">Book Added to Hoard</h5>
+      <p class="card-text">
+        <strong>Title:</strong> {{ added_book.title }} <br />
+        <strong>Author:</strong> {{ added_contact.author }} <br />
+        <strong>Publisher:</strong> {{ added_contact.publisher }} <br />
+        <strong>Release Date:</strong> {{ added_contact.release_date }} <br />
+        <strong>ISBN:</strong> {{ added_contact.isbn }} <br />
+        <strong>Series:</strong> {{ added_contact.series }} <br />
+        <strong>Series #:</strong> {{ added_contact.series_num }} <br />
+        <strong>Cover URL:</strong> {{ added_contact.cover_url }} <br />
+        <strong>Summary:</strong> {{ added_contact.summary }} <br />
+        <strong>Notes:</strong> {{ added_contact.notes }} <br />
+        <strong>Condition:</strong> {{ added_contact.condition }} <br />
+      </p>
+    </div>
+  </div>
+  {% endif %}
+</div>
+{% endblock %}

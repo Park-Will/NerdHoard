@@ -1,19 +1,51 @@
+{% load static %}
 <!DOCTYPE html>
-<html>
-<head>
-  <title>NerdHoard</title>
-</head>
-<body>
-  <h1>NerdHoard</h1>
-  <nav>
-    <a href="{% url 'book_view' %}">Books</a>
-    <a href="{% url 'movie_view' %}">Movies</a>
-    <a href="{% url 'tv_view' %}">TV Shows</a>
-    <a href="{% url 'videogame_view' %}">Video Games</a>
-  </nav>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{% block title %}NerdHoard{% endblock %}</title>
+    <!-- Bootstrap CSS -->
+    <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet" />
+    <style>
+      /* Custom Sidebar Styling */
+      .sidebar {
+        height: 100vh; /* Full screen height */
+        background-color: #f8f9fa; /* Light gray background */
+        padding: 1rem;
+        position: fixed; /* Fixed on the left */
+        width: 180px;
+        margin-right: 2px;
+      }
+      .content {
+        margin-left: 260px; /* Prevent content overlap with sidebar */
+        padding: 2rem;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Sidebar -->
+    <div class="sidebar">
+      <h4>Menu</h4>
+      <ul class="nav flex-column">
+        <h5>Books</h5>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'add_book' %}"> Add </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'search_book' %}"> Search </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'edit_book' 0 1 %}"> Edit </a>
+        </li>
+        <!-- Add more links here -->
+      </ul>
+    </div>
 
-  {% block content %}
-  {% endblock %}
+    <!-- Main Content -->
+    <main class="content">{% block content %} {% endblock %}</main>
 
-</body>
+    <!-- Bootstrap JS -->
+    <script src="{% static 'js/bootstrap.min.js' %}"></script>
+  </body>
 </html>
