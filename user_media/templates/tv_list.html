@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>Add a TV</h2>
+<form method="POST">
+  {% csrf_token %} {{form.as_p}}
+  <button type="submit">Save</button>
+</form>
+
+<h2>TV List</h2>
+<ul>
+{% for tv in tv %}
+    <li>
+        {{tv.title}} by {{tv.creator}} ({{tv.condition}})
+        <a href="{% url 'edit_book' book.id %}">Edit</a>
+        <a href="{% url 'delete_book' book.id %}">Delete</a>
+    </li>
+  {% endfor %}
+</ul>
+{% endblock %}

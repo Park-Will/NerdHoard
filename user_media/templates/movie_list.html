@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>Add a Movie</h2>
+<form method="POST">
+  {% csrf_token %} {{form.as_p}}
+  <button type="submit">Save</button>
+</form>
+
+<h2>Movie List</h2>
+<ul>
+{% for movie in movies %}
+    <li>
+        {{movie.title}} by {{movie.director}} ({{movie.condition}})
+        <a href="{% url 'edit_book' book.id %}">Edit</a>
+        <a href="{% url 'delete_book' book.id %}">Delete</a>
+    </li>
+  {% endfor %}
+</ul>
+{% endblock %}

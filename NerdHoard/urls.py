@@ -20,5 +20,5 @@ from user_media.views import *
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include('user_media.urls'))
+    path('', include('user_media.urls')),
 ]
