@@ -64,14 +64,6 @@ def edit_book(request, book_id, page_number):
         print(f'[DBG] edit_book {book_id}, {page_number}, {pn} <<<')
         success = False
 
-        if request.method == 'POST':
-                book = get_object_or_404(Book, id=book_id)
-                form = BookForm(request.POST, instance=book)
-
-                if form.is_valid():
-                        form.save()
-                        success = True
-
         book_list = Book.objects.all().order_by('id')
         paginator = Paginator(book_list, 10)
         page_number = request.POST.get('page', request.GET.get('page', page_number))
@@ -82,6 +74,23 @@ def edit_book(request, book_id, page_number):
                 'updated_book_id': book_id,
         })
 
+def edit_book_full(request, book_id, page_number):
+        book = get_object_or_404(Book, id=book_id)
+
+        if request.method == 'POST':
+                form = BookForm(request.POST, instance=book)
+                if form.is_valid():
+                        form.save()
+                        return redirect('edit_book', book_id=book_id, page_number=page_number)
+        else:
+                form = BookForm(instance=book)
+
+        return render(request, 'edit_book_full_css.html', {
+                'form': form,
+                'book': book,
+                'page_number': page_number
+        })
+                
 def delete_book(request, book_id, page_number):
         print("[DBG] delete_book called for ID:", book_id)
         if request.method == "POST":

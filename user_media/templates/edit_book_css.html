@@ -18,9 +18,7 @@
           <th>ISBN</th>
           <th>Series</th>
           <th>Series #</th>
-          <th>Cover URL</th>
-          <th>Summary</th>
-          <th>Notes</th>
+          <th>Book Cover</th>
           <th>Condition</th>
           <th>Actions</th>
         </tr>
@@ -28,28 +26,23 @@
       <tbody>
         {% for book in books %}
         <tr id="book-row-{{ book.id }}" {% if success and book.id == updated_book_id %} class="table-success" {% endif %}>
-          <form method="POST" action="{% url 'edit_book' book.id books.number %}">
-            {% csrf_token %}
-            <input type="hidden" name="page" value="{{ books.number }}" />
             <td>{{ book.id }}</td>
-            <td><input type="text" name="title" value="{{ book.title }}" class="form-control" /></td>
-            <td><input type="text" name="author" value="{{ book.author }}" class="form-control" /></td>
-            <td><input type="text" name="publisher" value="{{ book.publisher }}" class="form-control" /></td>
-            <td><input type="date" name="release_date" value="{{ book.release_date|date:'Y-m-d' }}" class="form-control" /></td>
-            <td><input type="text" name="isbn" value="{{ book.isbn }}" class="form-control" /></td>
-            <td><input type="text" name="series" value="{{ book.series}}" class="form-control" /></td>
-            <td><input type="number" name="series_num" value="{{ book.series_num}}" class="form-control" /></td>
-            <td><input type="url" name="cover_url" value="{{ book.cover_url }}" class="form-control" /></td>
-            <td><input type="text" name="summary" value="{{ book.summary }}" class="form-control" /></td>
-            <td><input type="text" name="notes" value="{{ book.notes}}" class="form-control" /></td>
-            <td><input type="text" name="condition" value="{{ book.condition }}" class="form-control" /></td>
-            <td class="d-flex gap-2">
-              <button type="submit" class="btn btn-primary btn-sm">Save</button>
-          </form>
-          <form method="POST" action="{% url 'delete_book' book.id books.number %}" onsubmit="return confirm('Are you sure you want to delete this book?');">
-            {% csrf_token %}
-            <button type="submit" class="btn btn-danger btn-sm">Delete</button>
-          </form>
+            <td>{{ book.title }}</td>
+            <td>{{ book.author }}</td>
+            <td>{{ book.publisher }}</td>
+            <td>{{ book.release_date}}</td>
+            <td>{{ book.isbn }}</td>
+            <td>{{ book.series}}</td>
+            <td>{{ book.series_num}}</td>
+            <td>{% if book.cover_url %}<img src="{{ book.cover_url }}" alt="{{ book.title }} Cover" style="height: 100px;">{% endif %}</td>
+            <td>{{ book.condition }}</td>
+            <td div class="d-flex gap-2">
+              <a href="{% url 'edit_book_full' book.id books.number %}" class="btn btn-primary btn-sm">Edit</a>
+              <form method="POST" action="{% url 'delete_book' book.id books.number %}" onsubmit="return confirm('Are you sure you want to delete this book?');">
+              {% csrf_token %}
+              <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+            </div>
+            </form>
           </td>
         </tr>
         {% endfor %}

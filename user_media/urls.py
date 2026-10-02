@@ -6,6 +6,7 @@ urlpatterns = [
     path('add_book/', views.add_book, name='add_book'),
     path('search_book/', views.search_book, name='search_book'),
     path('edit_book/<int:book_id>/<int:page_number>/', views.edit_book, name='edit_book'),
+    path('edit_book_full/<int:book_id>/<int:page_number>/', views.edit_book_full, name='edit_book_full'),
     path('delete_book/<int:book_id>/<int:page_number>/', views.delete_book, name='delete_book'),
     path('add_movie/', views.add_movie, name='add_movie'),
     path('search_movie/', views.search_movie, name='search_movie'),
