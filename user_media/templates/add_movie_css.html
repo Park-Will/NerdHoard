@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% block title %}Add Movie{% endblock %}
+{% block content %}
+<div class="container mt-4">
+  <h1 class="mb-4 text-primary">Add a New Movie</h1>
+  <!-- Contact Form -->
+  <form method="POST" class="border p-4 rounded bg-light shadow-sm">
+    {% csrf_token %}
+    <div class="mb-3">
+      {{ form.as_p }}
+    </div>
+    <button type="submit" class="btn btn-success">Add Movie</button>
+  </form>
+
+  <!-- Success Message -->
+  {% if success %}
+  <div class="alert alert-success mt-4" role="alert">
+    <strong>Success!</strong> Your movie has been successfully added.
+  </div>
+  
+  <!-- Display Added Contact -->
+  <div class="card mt-3 shadow-sm">
+    <div class="card-body">
+      <h5 class="card-title">Movie Added to Hoard</h5>
+      <p class="card-text">
+        <strong>Title:</strong> {{ added_movie.title }} <br />
+        <strong>Director:</strong> {{ added_movie.director }} <br />
+        <strong>Release Date:</strong> {{ added_movie.release_date }} <br />
+        <strong>Format:</strong> {{ added_movie.format }} <br />
+        <strong>Series:</strong> {{ added_movie.series }} <br />
+        <strong>Series #:</strong> {{ added_movie.series_num }} <br />
+        <strong>Cover URL:</strong> {{ added_movie.cover_url }} <br />
+        <strong>Summary:</strong> {{ added_movie.summary }} <br />
+        <strong>Notes:</strong> {{ added_movie.notes }} <br />
+        <strong>Condition:</strong> {{ added_movie.condition }} <br />
+      </p>
+    </div>
+  </div>
+  {% endif %}
+</div>
+{% endblock %}

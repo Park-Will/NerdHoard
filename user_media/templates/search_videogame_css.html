@@ -1,0 +1,137 @@
+{% extends 'base.html' %} {% block title %}Search Video Games{% endblock %}
+<!-- Content -->
+{% block content %}
+<div class="container mt-4">
+  <!-- Page Title -->
+  <h1 class="mb-4 text-primary">Search Video Game</h1>
+
+  <!-- Search Form -->
+  <form method="POST" class="border p-4 bg-light rounded shadow-sm">
+    {% csrf_token %}
+    <div class="mb-3">
+      <label for="title" class="form-label">Title:</label>
+      <input
+        type="text"
+        id="title"
+        name="title"
+        class="form-control"
+        placeholder="Enter title"
+        value="{{ title_query }}"
+      />
+    </div>
+    <div class="mb-3">
+      <label for="developer" class="form-label">Developer:</label>
+      <input
+        type="text"
+        id="developer"
+        name="developer"
+        class="form-control"
+        placeholder="Enter developer"
+        value="{{ developer_query }}"
+      />
+    </div>
+    <div class="mb-3">
+      <label for="series" class="form-label">Series:</label>
+      <input
+        type="text"
+        id="series"
+        name="series"
+        class="form-control"
+        placeholder="Enter series"
+        value="{{ series_query }}"
+      />
+    </div>
+    <button type="submit" class="btn btn-primary">Search Video Game</button>
+  </form>
+
+  <!-- Search Results -->
+  {% if videogames %}
+  <div class="mt-4">
+    <h2 class="text-success">Search Results.</h2>
+    <p>Query: {{ title_query }} {{ developer_query }} {{ series_query }}</p>
+    <ul class="list-group">
+      {% for videogame in videogames %}
+      <li
+        class="list-group-item d-flex justify-content-between align-items-center"
+      >
+        <div class="d-flex align-items-center">
+          <strong style="width: 70px; text-align: left"
+            >#{{ videogame.id }}</strong
+          >
+          <span
+            style="
+              width: 200px;
+              overflow: hidden;
+              text-overflow: ellipsis;
+              white-space: nowrap;
+            "
+            >{{ videogame.title }}</span
+          >
+          <span
+            style="
+              width: 250px;
+              overflow: hidden;
+              text-overflow: ellipsis;
+              white-space: nowrap;
+            "
+            >{{ videogame.developer }}</span
+          >
+        </div>
+      </li>
+      {% endfor %}
+    </ul>
+
+    <!-- Pagination Controls -->
+    <nav aria-label="Page navigation" class="mt-4">
+      <ul class="pagination justify-content-center">
+        {% if videogames.has_previous %}
+        <li class="page-item">
+          <a
+            class="page-link"
+            href="?page=1&title={{ title_query }}&developer={{ developer_query }}"
+            >First</a
+          >
+        </li>
+        <li class="page-item">
+          <a
+            class="page-link"
+            href="?page={{ videogames.previous_page_number }}&title={{ title_query }}&developer={{ developer_query }}"
+            >Previous</a
+          >
+        </li>
+        {% endif %}
+
+        <li class="page-item active">
+          <span class="page-link">
+            Page {{ videogames.number }} of {{ videogames.paginator.num_pages }}
+          </span>
+        </li>
+
+        {% if videogames.has_next %}
+        <li class="page-item">
+          <a
+            class="page-link"
+            href="?page={{ videogames.next_page_number }}&title={{ title_query }}&developer={{ developer_query }}"
+            >Next</a
+          >
+        </li>
+        <li class="page-item">
+          <a
+            class="page-link"
+            href="?page={{ videogames.paginator.num_pages }}&title={{ title_query }}&developer={{ developer_query }}"
+            >Last</a
+          >
+        </li>
+        {% endif %}
+      </ul>
+    </nav>
+  </div>
+
+  {% elif request.method == "POST" %}
+  <!-- No Results Message -->
+  <div class="alert alert-warning mt-4" role="alert">
+    No video games found. Please try again.
+  </div>
+  {% endif %}
+</div>
+{% endblock %}

@@ -13,6 +13,15 @@
           <th>ID</th>
           <th>Title</th>
           <th>Author</th>
+          <th>Publisher</th>
+          <th>Release Date</th>
+          <th>ISBN</th>
+          <th>Series</th>
+          <th>Series #</th>
+          <th>Cover URL</th>
+          <th>Summary</th>
+          <th>Notes</th>
+          <th>Condition</th>
           <th>Actions</th>
         </tr>
       </thead>
@@ -25,6 +34,15 @@
             <td>{{ book.id }}</td>
             <td><input type="text" name="title" value="{{ book.title }}" class="form-control" /></td>
             <td><input type="text" name="author" value="{{ book.author }}" class="form-control" /></td>
+            <td><input type="text" name="publisher" value="{{ book.publisher }}" class="form-control" /></td>
+            <td><input type="date" name="release_date" value="{{ book.release_date|date:'Y-m-d' }}" class="form-control" /></td>
+            <td><input type="text" name="isbn" value="{{ book.isbn }}" class="form-control" /></td>
+            <td><input type="text" name="series" value="{{ book.series}}" class="form-control" /></td>
+            <td><input type="number" name="series_num" value="{{ book.series_num}}" class="form-control" /></td>
+            <td><input type="url" name="cover_url" value="{{ book.cover_url }}" class="form-control" /></td>
+            <td><input type="text" name="summary" value="{{ book.summary }}" class="form-control" /></td>
+            <td><input type="text" name="notes" value="{{ book.notes}}" class="form-control" /></td>
+            <td><input type="text" name="condition" value="{{ book.condition }}" class="form-control" /></td>
             <td class="d-flex gap-2">
               <button type="submit" class="btn btn-primary btn-sm">Save</button>
           </form>

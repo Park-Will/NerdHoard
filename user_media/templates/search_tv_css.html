@@ -1,0 +1,127 @@
+{% extends 'base.html' %} {% block title %}Search TV Shows{% endblock %}
+<!-- Content -->
+{% block content %}
+<div class="container mt-4">
+  <!-- Page Title -->
+  <h1 class="mb-4 text-primary">Search TV Show</h1>
+
+  <!-- Search Form -->
+  <form method="POST" class="border p-4 bg-light rounded shadow-sm">
+    {% csrf_token %}
+    <div class="mb-3">
+      <label for="title" class="form-label">Title:</label>
+      <input
+        type="text"
+        id="title"
+        name="title"
+        class="form-control"
+        placeholder="Enter title"
+        value="{{ title_query }}"
+      />
+    </div>
+    <div class="mb-3">
+      <label for="creator" class="form-label">Creator:</label>
+      <input
+        type="text"
+        id="creator"
+        name="creator"
+        class="form-control"
+        placeholder="Enter creator"
+        value="{{ creator_query }}"
+      />
+    </div>
+
+    <button type="submit" class="btn btn-primary">Search TV Show</button>
+  </form>
+
+  <!-- Search Results -->
+  {% if tvs %}
+  <div class="mt-4">
+    <h2 class="text-success">Search Results.</h2>
+    <p>Query: {{ title_query }} {{ creator_query }}</p>
+    <ul class="list-group">
+      {% for tv in tvs %}
+      <li
+        class="list-group-item d-flex justify-content-between align-items-center"
+      >
+        <div class="d-flex align-items-center">
+          <strong style="width: 70px; text-align: left"
+            >#{{ tv.id }}</strong
+          >
+          <span
+            style="
+              width: 200px;
+              overflow: hidden;
+              text-overflow: ellipsis;
+              white-space: nowrap;
+            "
+            >{{ tv.title }}</span
+          >
+          <span
+            style="
+              width: 250px;
+              overflow: hidden;
+              text-overflow: ellipsis;
+              white-space: nowrap;
+            "
+            >{{ tv.creator }}</span
+          >
+        </div>
+      </li>
+      {% endfor %}
+    </ul>
+
+    <!-- Pagination Controls -->
+    <nav aria-label="Page navigation" class="mt-4">
+      <ul class="pagination justify-content-center">
+        {% if tvs.has_previous %}
+        <li class="page-item">
+          <a
+            class="page-link"
+            href="?page=1&title={{ title_query }}&creator={{ creator_query }}"
+            >First</a
+          >
+        </li>
+        <li class="page-item">
+          <a
+            class="page-link"
+            href="?page={{ tvs.previous_page_number }}&title={{ title_query }}&creator={{ creator_query }}"
+            >Previous</a
+          >
+        </li>
+        {% endif %}
+
+        <li class="page-item active">
+          <span class="page-link">
+            Page {{ tvs.number }} of {{ tvs.paginator.num_pages }}
+          </span>
+        </li>
+
+        {% if tvs.has_next %}
+        <li class="page-item">
+          <a
+            class="page-link"
+            href="?page={{ tvs.next_page_number }}&title={{ title_query }}&creator={{ creator_query }}"
+            >Next</a
+          >
+        </li>
+        <li class="page-item">
+          <a
+            class="page-link"
+            href="?page={{ tvs.paginator.num_pages }}&title={{ title_query }}&creator={{ creator_query }}"
+            >Last</a
+          >
+        </li>
+        {% endif %}
+      </ul>
+    </nav>
+  </div>
+
+  {% elif request.method == "POST" %}
+  <!-- No Results Message -->
+  <div class="alert alert-warning mt-4" role="alert">
+    No TV Shows found. Please try again.
+  </div>
+  {% endif %}
+</div>
+{% endblock %}

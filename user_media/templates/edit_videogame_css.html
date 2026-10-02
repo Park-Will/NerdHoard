@@ -1,0 +1,136 @@
+{% extends 'base.html' %}
+{% block title %}Edit Video Games{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+  <h1 class="mb-4">Edit Video Games</h1>
+
+  <!-- Table for displaying video games -->
+  <div class="table-responsive">
+    <table class="table table-bordered table-hover">
+      <thead class="table-light">
+        <tr>
+          <th>ID</th>
+          <th>Title</th>
+          <th>Developer</th>
+          <th>Release Date</th>
+          <th>Platform</th>
+          <th>Series</th>
+          <th>Series #</th>
+          <th>Cover URL</th>
+          <th>Summary</th>
+          <th>Notes</th>
+          <th>Condition</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for videogame in videogames %}
+        <tr id="videogame-row-{{ videogame.id }}" {% if success and videogame.id == updated_videogame_id %} class="table-success" {% endif %}>
+          <form method="POST" action="{% url 'edit_videogame' videogame.id videogames.number %}">
+            {% csrf_token %}
+            <input type="hidden" name="page" value="{{ videogames.number }}" />
+            <td>{{ videogame.id }}</td>
+            <td><input type="text" name="title" value="{{ videogame.title }}" class="form-control" /></td>
+            <td><input type="text" name="developer" value="{{ videogame.developer }}" class="form-control" /></td>
+            <td><input type="date" name="release_date" value="{{ videogame.release_date|date:'Y-m-d' }}" class="form-control" /></td>
+            <td><input type="text" name="platform" value="{{ videogame.platform }}" class="form-control" /></td>
+            <td><input type="text" name="series" value="{{ videogame.series}}" class="form-control" /></td>
+            <td><input type="number" name="series_num" value="{{ videogame.series_num}}" class="form-control" /></td>
+            <td><input type="url" name="cover_url" value="{{ videogame.cover_url }}" class="form-control" /></td>
+            <td><input type="text" name="summary" value="{{ videogame.summary }}" class="form-control" /></td>
+            <td><input type="text" name="notes" value="{{ videogame.notes}}" class="form-control" /></td>
+            <td><input type="text" name="condition" value="{{ videogame.condition }}" class="form-control" /></td>
+            <td class="d-flex gap-2">
+              <button type="submit" class="btn btn-primary btn-sm">Save</button>
+          </form>
+          <form method="POST" action="{% url 'delete_videogame' videogame.id videogames.number %}" onsubmit="return confirm('Are you sure you want to delete this video game?');">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+          </form>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Pagination controls -->
+<nav aria-label="Page navigation" class="mt-4">
+  <ul class="pagination justify-content-center">
+    {% if videogames.has_previous %}
+    <li class="page-item">
+      <a class="page-link" href="?page=1">First</a>
+    </li>
+    <li class="page-item">
+      <a class="page-link" href="?page={{ videogames.previous_page_number }}">Previous</a>
+    </li>
+    {% endif %}
+    <li class="page-item disabled">
+      <span class="page-link">
+        Page {{ videogames.number }} of {{ videogames.paginator.num_pages }}
+      </span>
+    </li>
+    {% if videogames.has_next %}
+    <li class="page-item">
+      <a class="page-link" href="?page={{ videogames.next_page_number }}">Next</a>
+    </li>
+    <li class="page-item">
+      <a class="page-link" href="?page={{ videogames.paginator.num_pages }}">Last</a>
+    </li>
+    {% endif %}
+  </ul>
+</nav>
+
+  {% comment %} <nav aria-label="Page navigation" class="mt-4">
+    <ul class="pagination justify-content-center">
+      {% if videogames.has_previous %}
+        <li class="page-item">
+          <a class="page-link" href="?page={{ videogames.previous_page_number }}">Previous</a>
+        </li>
+      {% else %}
+        <li class="page-item disabled">
+          <span class="page-link">Previous</span>
+        </li>
+      {% endif %}
+
+      {% for num in videogames.paginator.page_range %}
+        {% if videogames.number == num %}
+          <li class="page-item active">
+            <span class="page-link">[{{ num }}]</span>
+          </li>
+        {% else %}
+          <li class="page-item">
+            <a class="page-link" href="?page={{ num }}">{{ num }}</a>
+          </li>
+        {% endif %}
+      {% endfor %}
+
+      {% if videogames.has_next %}
+        <li class="page-item">
+          <a class="page-link" href="?page={{ videogames.next_page_number }}">Next</a>
+        </li>
+      {% else %}
+        <li class="page-item disabled">
+          <span class="page-link">Next</span>
+        </li>
+      {% endif %}
+    </ul>
+  </nav> {% endcomment %}
+
+</div>
+
+{% if success %}
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const updatedRow = document.getElementById('videogame-row-{{ updated_videogame_id }}');
+    if (updatedRow) {
+      updatedRow.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      setTimeout(() => {
+        updatedRow.classList.remove('table-success');
+      }, 3000);
+    }
+  });
+</script>
+{% endif %}
+{% endblock %}
