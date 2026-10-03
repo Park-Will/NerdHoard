@@ -4,7 +4,7 @@ from .models import Book, Movie, TV, VideoGame
 class BookForm(forms.ModelForm):
 	class Meta:
 		model = Book
-		fields = ['title', 'author', 'publisher', 'release_date', 'isbn', 'series', 'series_num', 'cover_url', 'summary', 'notes', 'condition']
+		fields = ['title', 'author', 'publisher', 'release_year', 'isbn', 'series', 'series_num', 'cover_url', 'summary', 'notes', 'condition']
 		widgets = {
 			'title': forms.TextInput(attrs={
 				'class': 'form-control',
@@ -18,9 +18,9 @@ class BookForm(forms.ModelForm):
 				'class': 'form-control',
 				'placeholder': 'Enter Publisher'
 			}),
-			'release_date': forms.TextInput(attrs={
+			'release_year': forms.TextInput(attrs={
 				'class': 'form-control',
-				'placeholder': 'Enter Publication Date'
+				'placeholder': 'Enter Publication Year'
 			}),
 			'isbn': forms.TextInput(attrs={
 				'class': 'form-control',
@@ -54,7 +54,7 @@ class BookForm(forms.ModelForm):
 class MovieForm(forms.ModelForm):
 	class Meta:
 		model = Movie
-		fields = ['title', 'director', 'release_date', 'format', 'series', 'series_num', 'cover_url', 'summary', 'notes', 'condition']
+		fields = ['title', 'director', 'release_year', 'format', 'series', 'series_num', 'cover_url', 'summary', 'notes', 'condition']
 		widgets = {
 			'title': forms.TextInput(attrs={
 				'class': 'form-control',
@@ -68,9 +68,9 @@ class MovieForm(forms.ModelForm):
 				'class': 'form-control',
 				'placeholder': 'Enter Format'
 			}),
-			'release_date': forms.TextInput(attrs={
+			'release_year': forms.TextInput(attrs={
 				'class': 'form-control',
-				'placeholder': 'Enter Release Date'
+				'placeholder': 'Enter Release Year'
 			}),
 			'series': forms.TextInput(attrs={
 				'class': 'form-control',
@@ -100,7 +100,7 @@ class MovieForm(forms.ModelForm):
 class TVForm(forms.ModelForm):
 	class Meta:
 		model = TV
-		fields = ['title', 'creator', 'release_date', 'format', 'season', 'cover_url', 'summary', 'notes', 'condition']
+		fields = ['title', 'creator', 'release_year', 'format', 'season', 'cover_url', 'summary', 'notes', 'condition']
 		widgets = {
 			'title': forms.TextInput(attrs={
 				'class': 'form-control',
@@ -110,9 +110,9 @@ class TVForm(forms.ModelForm):
 				'class': 'form-control',
 				'placeholder': 'Enter Creator'
 			}),
-			'release_date': forms.TextInput(attrs={
+			'release_year': forms.TextInput(attrs={
 				'class': 'form-control',
-				'placeholder': 'Enter Release Date'
+				'placeholder': 'Enter Release Year'
 			}),
 			'format': forms.TextInput(attrs={
 				'class': 'form-control',
@@ -142,7 +142,7 @@ class TVForm(forms.ModelForm):
 class VideoGameForm(forms.ModelForm):
 	class Meta:
 		model = VideoGame
-		fields = ['title', 'developer', 'publisher', 'release_date', 'platform', 'series', 'series_num', 'cover_url', 'summary', 'notes', 'condition']
+		fields = ['title', 'developer', 'publisher', 'release_year', 'platform', 'series', 'series_num', 'cover_url', 'summary', 'notes', 'condition']
 		widgets = {
 			'title': forms.TextInput(attrs={
 				'class': 'form-control',
@@ -156,9 +156,9 @@ class VideoGameForm(forms.ModelForm):
 				'class': 'form-control',
 				'placeholder': 'Enter Publisher'
 			}),
-			'release_date': forms.TextInput(attrs={
+			'release_year': forms.TextInput(attrs={
 				'class': 'form-control',
-				'placeholder': 'Enter Release Date'
+				'placeholder': 'Enter Release Year'
 			}),
 			'platform': forms.TextInput(attrs={
 				'class': 'form-control',

@@ -18,12 +18,12 @@ def generate_books(count=100):
 	"""
 	try:
 		sample_books = [Book(
-			title=fake.words(4),
+			title = ' '.join(fake.words(4)),
 			author = fake.name(),
-			publisher = fake.words(2),
-			release_date = fake.past_date(),
+			publisher = ' '.join(fake.words(2)),
+			release_year = fake.year(),
 			isbn = fake.numerify(text="#############"),
-			series = fake.words(3),
+			series = ' '.join(fake.words(4)),
 			series_num = fake.random_int(min=1, max=12),
 			summary = fake.paragraph(),
 			notes = fake.paragraph(),
@@ -45,11 +45,11 @@ def generate_movies(count=100):
 	"""
 	try:
 		sample_movies = [Movie(
-			title=fake.words(4),
+			title = ' '.join(fake.words(4)),
 			director = fake.name(),
 			format = 'DVD',
-			release_date = fake.past_date(),
-			series = fake.words(3),
+			release_year = fake.year(),
+			series = ' '.join(fake.words(3)),
 			series_num = fake.random_int(min=1, max=12),
 			summary = fake.paragraph(),
 			notes = fake.paragraph(),
@@ -71,9 +71,9 @@ def generate_tv(count=100):
 	"""
 	try:
 		sample_tv = [TV(
-			title=fake.words(4),
+			title = ' '.join(fake.words(4)),
 			creator = fake.name(),
-			release_date = fake.past_date(),
+			release_year = fake.year(),
 			format = 'DVD',
 			season = fake.random_int(min=1, max=12),
 			summary = fake.paragraph(),
@@ -96,12 +96,12 @@ def generate_videogames(count=100):
 	"""
 	try:
 		sample_videogames = [VideoGame(
-			title=fake.words(4),
-			developer = fake.words(2),
-			publisher = fake.words(2),
-			release_date = fake.past_date(),
+			title = ' '.join(fake.words(4)),
+			developer = ' '.join(fake.words(2)),
+			publisher = ' '.join(fake.words(2)),
+			release_year = fake.year(),
 			platform = 'PlayStation 4',
-			series = fake.words(3),
+			series = ' '.join(fake.words(3)),
 			series_num = fake.random_int(min=1, max=12),
 			summary = fake.paragraph(),
 			notes = fake.paragraph(),

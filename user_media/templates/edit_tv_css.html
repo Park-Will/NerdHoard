@@ -13,7 +13,7 @@
           <th>ID</th>
           <th>Title</th>
           <th>Creator</th>
-          <th>Release Date</th>
+          <th>Release Year</th>
           <th>Format</th>
           <th>Season</th>
           <th>Cover URL</th>
@@ -32,7 +32,7 @@
             <td>{{ tv.id }}</td>
             <td><input type="text" name="title" value="{{ tv.title }}" class="form-control" /></td>
             <td><input type="text" name="creator" value="{{ tv.creator }}" class="form-control" /></td>
-            <td><input type="date" name="release_date" value="{{ tv.release_date|date:'Y-m-d' }}" class="form-control" /></td>
+            <td><input type="date" name="release_year" value="{{ tv.release_year }}" class="form-control" /></td>
             <td><input type="text" name="format" value="{{ tv.format }}" class="form-control" /></td>
             <td><input type="number" name="season" value="{{ tv.season}}" class="form-control" /></td>
             <td><input type="url" name="cover_url" value="{{ tv.cover_url }}" class="form-control" /></td>
