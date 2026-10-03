@@ -3,6 +3,8 @@ from django.http import HttpResponse
 from .models import Book, Movie, TV, VideoGame
 from .forms import BookForm, MovieForm, TVForm, VideoGameForm
 from django.core.paginator import Paginator
+import requests
+from .openlibraryAPI import *
 
 def hello_world(request):
 	return HttpResponse('Hello, World!<br><br>This is the root page of NerdHoard!')
@@ -25,12 +27,38 @@ def add_book(request):
                         "success": success},
                         )
         else:
-                form = BookForm()
-        return render(request, "add_book_css.html",
-                        {"form": form,
-                        "added_book": added_book,
-                        "success": success},
-                        )
+                summary = ''
+                openlibrary_key = request.GET.get('openlibrary_key', '')
+                if openlibrary_key.startswith('/works/'):
+                        try:
+                                summary = book_summary(openlibrary_key)
+                        except requests.exceptions.RequestException:
+                                summary = ''
+
+                form = BookForm(initial={
+                        'title': request.GET.get('title', ''),
+                        'author': request.GET.get('author', ''),
+                        'cover_url': request.GET.get('cover_url', ''),
+                        'release_year': request.GET.get('year', ''),
+                        'summary': summary,
+
+                })
+
+        user_query = request.GET.get('search', '').strip()
+        results = []
+        if user_query:
+                try:
+                        results = book_search(user_query)
+                except requests.exceptions.RequestException:
+                        results = []
+
+        return render(request, 'add_book_css.html',
+                        {'form': form,
+                        'added_book': added_book,
+                        'success': success,
+                        'user_query': user_query,
+                        'results': results,
+                        })
 
 def search_book(request):
         page_number = request.GET.get('page', 1)
