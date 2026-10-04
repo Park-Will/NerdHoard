@@ -5,6 +5,10 @@ from .forms import BookForm, MovieForm, TVForm, VideoGameForm
 from django.core.paginator import Paginator
 import requests
 from .openlibraryAPI import *
+from .tmdbAPI import *
+
+#TODO: Build tv, and videogame API files; wire them into the add_<object> functions here and update their individual css.html templates
+#TODO: Wire updated 'full edit' views to templates (Movie, TV, VideoGame)
 
 def hello_world(request):
 	return HttpResponse('Hello, World!<br><br>This is the root page of NerdHoard!')
@@ -142,12 +146,36 @@ def add_movie(request):
                                 "success": success
                                 })
         else:
-                form = MovieForm()
+                director = ''
+                tmdb_id = request.GET.get('tmdb_id', '')
+                if tmdb_id.isdigit():
+                        try:
+                                director = movie_details(tmdb_id)['director']
+                        except requests.exceptions.RequestException:
+                                director = ''
+
+                form = MovieForm(initial={
+                        'title': request.GET.get('title', ''),
+                        'cover_url': request.GET.get('cover_url', ''),
+                        'release_year': request.GET.get('release_date', '')[:4] or None,
+                        'summary': request.GET.get('summary', ''),
+                        'director': director,
+                        })
+
+        user_query = request.GET.get('search', '').strip()
+        results = []
+        if user_query:
+                try:
+                        results = movie_search(user_query)
+                except requests.exceptions.RequestException:
+                        results = []
 
         return render(request, "add_movie_css.html", {
                 "form": form,
                 "added_movie": added_movie,
-                "success": success
+                "success": success,
+                'user_query': user_query,
+                'results': results,
                 })
 
 def search_movie(request):
@@ -182,14 +210,6 @@ def edit_movie(request, movie_id, page_number):
         print(f'[DBG] edit_movie {movie_id}, {page_number}, {pn} <<<')
         success = False
 
-        if request.method == 'POST':
-                movie = get_object_or_404(Movie, id=movie_id)
-                form = MovieForm(request.POST, instance=movie)
-
-                if form.is_valid():
-                        form.save()
-                        success = True
-
         movie_list = Movie.objects.all().order_by('id')
         paginator = Paginator(movie_list, 10)
         page_number = request.POST.get('page', request.GET.get('page', page_number))
@@ -198,6 +218,23 @@ def edit_movie(request, movie_id, page_number):
                 'movies': page_obj,
                 'success': success,
                 'updated_movie_id': movie_id,
+        })
+
+def edit_movie_full(request, movie_id, page_number):
+        movie = get_object_or_404(Movie, id=movie_id)
+
+        if request.method == 'POST':
+                form = MovieForm(request.POST, instance=movie)
+                if form.is_valid():
+                        form.save()
+                        return redirect('edit_movie', movie_id = movie_id, page_number = page_number)
+        else:
+                form = MovieForm(instance = movie)
+
+        return render(request, 'edit_movie_full_css.html', {
+                'form': form,
+                'movie': movie,
+                'page_number': page_number
         })
 
 def delete_movie(request, movie_id, page_number):
@@ -261,13 +298,6 @@ def edit_tv(request, tv_id, page_number):
         print(f'[DBG] edit_tv {tv_id}, {page_number}, {pn} <<<')
         success = False
 
-        if request.method == 'POST':
-                tv = get_object_or_404(TV, id=tv_id)
-                form = TVForm(request.POST, instance=tv)
-
-                if form.is_valid():
-                        form.save()
-                        success = True
 
         tv_list = TV.objects.all().order_by('id')
         paginator = Paginator(tv_list, 10)
@@ -277,6 +307,24 @@ def edit_tv(request, tv_id, page_number):
                 'tvs': page_obj,
                 'success': success,
                 'updated_tv_id': tv_id,
+        })
+
+
+def edit_tv_full(request, tv_id, page_number):
+        tv = get_object_or_404(TV, id=tv_id)
+
+        if request.method == 'POST':
+                form = TVForm(request.POST, instance=tv)
+                if form.is_valid():
+                        form.save()
+                        return redirect('edit_tv', tv_id = tv_id, page_number = page_number)
+        else:
+                form = TVForm(instance = tv)
+
+        return render(request, 'edit_tv_full_css.html', {
+                'form': form,
+                'tv': tv,
+                'page_number': page_number
         })
 
 def delete_tv(request, tv_id, page_number):
@@ -321,10 +369,10 @@ def search_videogame(request):
         if request.method == 'POST':
                 title = request.POST.get('title', '').strip()
                 developer = request.POST.get('developer', '').strip()
-                series = request.GET.get('series', '').strip()
+                series = request.POST.get('series', '').strip()
                 page_number = 1
 
-        if title or developer:
+        if title or developer or series:
                 videogames = VideoGame.objects.filter(title__icontains=title, developer__icontains=developer, series__icontains=series).order_by('id')
         else:
                 videogames = VideoGame.objects.all().order_by('id')
@@ -344,14 +392,6 @@ def edit_videogame(request, videogame_id, page_number):
         print(f'[DBG] edit_videogame {videogame_id}, {page_number}, {pn} <<<')
         success = False
 
-        if request.method == 'POST':
-                videogame = get_object_or_404(VideoGame, id=videogame_id)
-                form = VideoGameForm(request.POST, instance=videogame)
-
-                if form.is_valid():
-                        form.save()
-                        success = True
-
         videogame_list = VideoGame.objects.all().order_by('id')
         paginator = Paginator(videogame_list, 10)
         page_number = request.POST.get('page', request.GET.get('page', page_number))
@@ -360,6 +400,23 @@ def edit_videogame(request, videogame_id, page_number):
                 'videogames': page_obj,
                 'success': success,
                 'updated_videogame_id': videogame_id,
+        })
+
+def edit_videogame_full(request, videogame_id, page_number):
+        videogame = get_object_or_404(VideoGame, id=videogame_id)
+
+        if request.method == 'POST':
+                form = VideoGameForm(request.POST, instance = videogame)
+                if form.is_valid():
+                        form.save()
+                        return redirect('edit_videogame', videogame_id = videogame_id, page_number = page_number)
+        else:
+                form = VideoGameForm(instance = videogame)
+
+        return render(request, 'edit_videogame_full_css.html', {
+                'form': form,
+                'videogame': videogame,
+                'page_number': page_number
         })
 
 def delete_videogame(request, videogame_id, page_number):

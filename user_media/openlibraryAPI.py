@@ -1,6 +1,7 @@
 import requests
+from django.conf import settings
 
-request_header = {'User-Agent': 'NerdHoard/0.1 (parkerwilliams@unomaha.edu)'}
+request_header = {'User-Agent': f'NerdHoard/0.1 ({settings.OPENLIBRARY_CONTACT})'}
 
 def book_search(user_request, limit=5):
     response = requests.get(
