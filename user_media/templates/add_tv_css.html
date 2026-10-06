@@ -3,7 +3,22 @@
 {% block content %}
 <div class="container mt-4">
   <h1 class="mb-4 text-primary">Add a New TV Show</h1>
-  <!-- Contact Form -->
+  <h4> Search TMDB for TV Show Details: </h4>
+  <form method = "get">
+    <input type="text" style="width: 300px;" name="search" value="{{ user_query }}" placeholder="Enter TV Show title">
+    <button type="submit" class="btn btn-primary">Search</button>
+    <br></br>
+  </form>
+
+  {% for result in results %}
+    <div>
+      {% if result.cover_url %}<img src="{{ result.cover_url }}" height="80">{% endif %}
+      {{ result.title }} ({% if result.release_date %}{{ result.release_date|slice:":4" }}{% else %}Unknown{% endif %})
+      <a href="{% url 'add_tv' %}?title={{ result.title|urlencode }}&release_date={{ result.release_date|default:''|urlencode }}&cover_url={{ result.cover_url|default:''|urlencode }}&summary={{ result.summary|default:''|urlencode }}&tmdb_id={{ result.tmdb_id }}">Select</a>
+    </div>
+  {% endfor %}
+
+  <!-- TV Form -->
   <form method="POST" class="border p-4 rounded bg-light shadow-sm">
     {% csrf_token %}
     <div class="mb-3">

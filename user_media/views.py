@@ -262,11 +262,36 @@ def add_tv(request):
                                 "success": success
                                 })      
         else:
-                form = TVForm()
+                creator = ''
+                tmdb_id = request.GET.get('tmdb_id', '')
+                if tmdb_id.isdigit():
+                        try:
+                                creator = tv_details(tmdb_id)['created_by']
+                        except requests.exceptions.RequestException:
+                                creator = ''
+
+                form = TVForm(initial={
+                        'title': request.GET.get('title', ''),
+                        'cover_url': request.GET.get('cover_url', ''),
+                        'release_year': request.GET.get('release_date', '')[:4] or None,
+                        'summary': request.GET.get('summary', ''),
+                        'creator': creator,
+                        })
+
+        user_query = request.GET.get('search', '').strip()
+        results = []
+        if user_query:
+                try:
+                        results = tv_search(user_query)
+                except requests.exceptions.RequestException:
+                        results = []
+
         return render(request, "add_tv_css.html",{
                 "form": form,
                 "added_tv": added_tv,
-                "success": success
+                "success": success,
+                'user_query': user_query,
+                'results': results,
                 })
 
 def search_tv(request):
