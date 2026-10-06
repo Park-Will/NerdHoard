@@ -6,6 +6,7 @@ from django.core.paginator import Paginator
 import requests
 from .openlibraryAPI import *
 from .tmdbAPI import *
+from .rawgAPI import *
 
 #TODO: Build tv, and videogame API files; wire them into the add_<object> functions here and update their individual css.html templates
 #TODO: Wire updated 'full edit' views to templates (Movie, TV, VideoGame)
@@ -377,11 +378,36 @@ def add_videogame(request):
                                 "success": success
                                 })      
         else:
-                form = VideoGameForm()
+                details = {}
+                rawg_id = request.GET.get('rawg_id', '')
+                if rawg_id.isdigit():
+                        try:
+                                details = game_details(rawg_id)
+                        except requests.exceptions.RequestException:
+                                details = {}
+
+                form = VideoGameForm(initial = {
+                        'title': request.GET.get('title', ''),
+                        'cover_url': request.GET.get('cover_url', ''),
+                        'release_year': request.GET.get('release_year', '') or None,
+                        'developer': details.get('developer', ''),
+                        'publisher': details.get('publisher', ''),
+                        'summary': details.get('summary', ''),
+                        })
+        user_query = request.GET.get('search', '').strip()
+        results = []
+        if user_query:
+                try:
+                        results = game_search(user_query)
+                except requests.exceptions.RequestException:
+                        results = []
+
         return render(request, "add_videogame_css.html",{
                 "form": form,
                 "added_videogame": added_videogame,
-                "success": success
+                "success": success,
+                'user_query': user_query,
+                'results': results,
                 })
 
 def search_videogame(request):

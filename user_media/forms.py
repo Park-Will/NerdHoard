@@ -64,7 +64,7 @@ class MovieForm(forms.ModelForm):
 				'class': 'form-control',
 				'placeholder': 'Enter Director'
 			}),
-			'format': forms.TextInput(attrs={
+			'format': forms.Select(attrs={
 				'class': 'form-control',
 				'placeholder': 'Enter Format'
 			}),
@@ -114,7 +114,7 @@ class TVForm(forms.ModelForm):
 				'class': 'form-control',
 				'placeholder': 'Enter Release Year'
 			}),
-			'format': forms.TextInput(attrs={
+			'format': forms.Select(attrs={
 				'class': 'form-control',
 				'placeholder': 'Enter format'
 			}),
@@ -160,7 +160,7 @@ class VideoGameForm(forms.ModelForm):
 				'class': 'form-control',
 				'placeholder': 'Enter Release Year'
 			}),
-			'platform': forms.TextInput(attrs={
+			'platform': forms.Select(attrs={
 				'class': 'form-control',
 				'placeholder': 'Enter Platform'
 			}),

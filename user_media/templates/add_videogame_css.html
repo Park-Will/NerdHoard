@@ -3,7 +3,22 @@
 {% block content %}
 <div class="container mt-4">
   <h1 class="mb-4 text-primary">Add a New Video Game</h1>
-  <!-- Contact Form -->
+  <h4> Search RAWG for Video Game Details: </h4>
+  <form method="get">
+    <input type="text" style="width: 300px;" name="search" value="{{ user_query }}" placeholder="Enter Video Game Title">
+    <button type="submit" class="btn btn-primary">Search</button>
+    <br></br>
+  </form>
+
+  {% for result in results %}
+    <div>
+      {% if result.cover_url %}<img src="{{ result.cover_url }}" height="80">{% endif %}
+      {{ result.title }} ({% if result.release_year %}{{ result.release_year }}{% else %}Unknown{% endif %})
+      <a href="{% url 'add_videogame' %}?title={{ result.title|urlencode }}&release_year={{ result.release_year|default:''|urlencode }}&cover_url={{ result.cover_url|default:''|urlencode }}&rawg_id={{ result.rawg_id }}">Select</a>
+    </div>
+  {% endfor %}
+
+  <!-- Video Game Form -->
   <form method="POST" class="border p-4 rounded bg-light shadow-sm">
     {% csrf_token %}
     <div class="mb-3">
@@ -18,13 +33,13 @@
     <strong>Success!</strong> Your video game has been successfully added.
   </div>
   
-  <!-- Display Added Contact -->
+  <!-- Display Added Game -->
   <div class="card mt-3 shadow-sm">
     <div class="card-body">
       <h5 class="card-title">Video Game Added to Hoard</h5>
       <p class="card-text">
         <strong>Title:</strong> {{ added_videogame.title }} <br />
-        <strong>Developer:</strong> {{ added_videogame.author }} <br />
+        <strong>Developer:</strong> {{ added_videogame.developer }} <br />
         <strong>Publisher:</strong> {{ added_videogame.publisher }} <br />
         <strong>Release Year:</strong> {{ added_videogame.release_year }} <br />
         <strong>Platform:</strong> {{ added_videogame.platform }} <br />

@@ -18,6 +18,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 load_dotenv(BASE_DIR / '.env')
 TMDB_API_KEY = os.environ.get('TMDB_API_KEY')
 OPENLIBRARY_CONTACT = os.environ.get('OPENLIBRARY_CONTACT')
+RAWG_API_KEY = os.environ.get('RAWG_API_KEY')
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/

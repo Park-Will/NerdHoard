@@ -24,7 +24,7 @@ def movie_search(user_request, limit=5):
         'release_date': result.get('release_date') or None,
         'summary': result.get('overview', ''),
         'cover_url': (
-            f'https://image.tmdb.org/t/p/w500{r["poster_path"]}'
+            f'https://image.tmdb.org/t/p/w500{result["poster_path"]}'
             if result.get('poster_path') else ''
         ),
     }
