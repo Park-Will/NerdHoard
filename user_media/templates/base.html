@@ -21,6 +21,21 @@
         margin-left: 260px; /* Prevent content overlap with sidebar */
         padding: 2rem;
       }
+      body {
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+      }
+      .content {
+        flex: 1;
+      }
+      .site-footer {
+        margin-left: 260px;
+        padding: 1rem 2rem;
+        font-size: 0.85rem;
+        color: #6c757d;
+        border-top: 1px solid #dee2e6;
+      }
     </style>
   </head>
   <body>
@@ -74,6 +89,14 @@
 
     <!-- Main Content -->
     <main class="content">{% block content %} {% endblock %}</main>
+
+    <!-- Attribution Footer -->
+    <footer class="site-footer">
+      Movie/TV data from <a href="https://www.themoviedb.org/">TMDB</a>
+      (This product uses the TMDB API but is not endorsed or certified by TMDB.)<br>
+      Game data from <a href="https://rawg.io/">RAWG</a><br>
+      Book data from <a href="https://openlibrary.org/">Open Library</a>
+    </footer>
 
     <!-- Bootstrap JS -->
     <script src="{% static 'js/bootstrap.min.js' %}"></script>
