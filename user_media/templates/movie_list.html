@@ -12,8 +12,8 @@
 {% for movie in movies %}
     <li>
         {{movie.title}} by {{movie.director}} ({{movie.condition}})
-        <a href="{% url 'edit_book' book.id %}">Edit</a>
-        <a href="{% url 'delete_book' book.id %}">Delete</a>
+        <a href="{% url 'edit_movie' movie.id %}">Edit</a>
+        <a href="{% url 'delete_movie' movie.id %}">Delete</a>
     </li>
   {% endfor %}
 </ul>

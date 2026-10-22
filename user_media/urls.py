@@ -16,9 +16,11 @@ urlpatterns = [
     path('add_tv/', views.add_tv, name='add_tv'),
     path('search_tv/', views.search_tv, name='search_tv'),
     path('edit_tv/<int:tv_id>/<int:page_number>/', views.edit_tv, name='edit_tv'),
+    path('edit_tv_full/<int:tv_id>/<int:page_number>/', views.edit_tv_full, name='edit_tv_full'),
     path('delete_tv/<int:tv_id>/<int:page_number>/', views.delete_tv, name='delete_tv'),
     path('add_videogame/', views.add_videogame, name='add_videogame'),
     path('search_videogame/', views.search_videogame, name='search_videogame'),
     path('edit_videogame/<int:videogame_id>/<int:page_number>/', views.edit_videogame, name='edit_videogame'),
+    path('edit_videogame_full/<int:videogame_id>/<int:page_number>/', views.edit_videogame_full, name='edit_videogame_full'),
     path('delete_videogame/<int:videogame_id>/<int:page_number>/', views.delete_videogame, name='delete_videogame'),
 ]

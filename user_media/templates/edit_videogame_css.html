@@ -19,7 +19,6 @@
           <th>Series #</th>
           <th>Cover URL</th>
           <th>Summary</th>
-          <th>Notes</th>
           <th>Condition</th>
           <th>Actions</th>
         </tr>
@@ -27,30 +26,26 @@
       <tbody>
         {% for videogame in videogames %}
         <tr id="videogame-row-{{ videogame.id }}" {% if success and videogame.id == updated_videogame_id %} class="table-success" {% endif %}>
-          <form method="POST" action="{% url 'edit_videogame' videogame.id videogames.number %}">
-            {% csrf_token %}
-            <input type="hidden" name="page" value="{{ videogames.number }}" />
-            <td>{{ videogame.id }}</td>
-            <td><input type="text" name="title" value="{{ videogame.title }}" class="form-control" /></td>
-            <td><input type="text" name="developer" value="{{ videogame.developer }}" class="form-control" /></td>
-            <td><input type="date" name="release_year" value="{{ videogame.release_year }}" class="form-control" /></td>
-            <td><input type="text" name="platform" value="{{ videogame.platform }}" class="form-control" /></td>
-            <td><input type="text" name="series" value="{{ videogame.series}}" class="form-control" /></td>
-            <td><input type="number" name="series_num" value="{{ videogame.series_num}}" class="form-control" /></td>
-            <td><input type="url" name="cover_url" value="{{ videogame.cover_url }}" class="form-control" /></td>
-            <td><input type="text" name="summary" value="{{ videogame.summary }}" class="form-control" /></td>
-            <td><input type="text" name="notes" value="{{ videogame.notes}}" class="form-control" /></td>
-            <td><input type="text" name="condition" value="{{ videogame.condition }}" class="form-control" /></td>
-            <td class="d-flex gap-2">
-              <button type="submit" class="btn btn-primary btn-sm">Save</button>
-          </form>
-          <form method="POST" action="{% url 'delete_videogame' videogame.id videogames.number %}" onsubmit="return confirm('Are you sure you want to delete this video game?');">
+          <td>{{ videogame.id }}</td>
+          <td>{{ videogame.title }}</td>
+          <td>{{ videogame.developer }}</td>
+          <td>{{ videogame.release_year }}</td>
+          <td>{{ videogame.platform }}</td>
+          <td>{{ videogame.series }}</td>
+          <td>{{ videogame.series_num }}</td>
+          <td>{% if videogame.cover_url %}<img src="{{ videogame.cover_url }}" alt="{{ videogame.title }} Cover" style="height: 100px;">{% endif %}</td>
+          <td>{{ videogame.summary|truncatechars:200 }}</td>
+          <td>{{ videogame.condition }}</td>
+          <td div class="d-flex gap-2">
+            <a href="{% url 'edit_videogame_full' videogame.id videogames.number %}" class="btn btn-primary btn-sm">Edit</a>
+            <form method="POST" action="{% url 'delete_videogame' videogame.id videogames.number %}" onsubmit="return confirm('Are you sure you want to delete this video game?');">
             {% csrf_token %}
             <button type="submit" class="btn btn-danger btn-sm">Delete</button>
-          </form>
-          </td>
-        </tr>
-        {% endfor %}
+           </div>
+         </form>
+        </td>
+       </tr>
+       {% endfor %}
       </tbody>
     </table>
   </div>

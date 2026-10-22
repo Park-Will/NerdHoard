@@ -58,7 +58,7 @@ class MovieForm(forms.ModelForm):
 		widgets = {
 			'title': forms.TextInput(attrs={
 				'class': 'form-control',
-				'placeholder': 'Enter Book Title',
+				'placeholder': 'Enter Movie Title',
 			}),
 			'director': forms.TextInput(attrs={
 				'class': 'form-control',
@@ -104,7 +104,7 @@ class TVForm(forms.ModelForm):
 		widgets = {
 			'title': forms.TextInput(attrs={
 				'class': 'form-control',
-				'placeholder': 'Enter Book Title',
+				'placeholder': 'Enter TV Show Title',
 			}),
 			'creator': forms.TextInput(attrs={
 				'class': 'form-control',
@@ -146,7 +146,7 @@ class VideoGameForm(forms.ModelForm):
 		widgets = {
 			'title': forms.TextInput(attrs={
 				'class': 'form-control',
-				'placeholder': 'Enter Book Title',
+				'placeholder': 'Enter Video Game Title',
 			}),
 			'developer': forms.TextInput(attrs={
 				'class': 'form-control',

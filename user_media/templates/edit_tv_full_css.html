@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% block title %}Edit TV Show Details{% endblock %}
+{% block content %}
+<div class="container mt-4">
+  <h1 class="mb-4 text-primary">Edit TV Show Details</h1>
+
+  <form method="POST" action="{% url 'edit_tv_full' tv.id page_number %}" class="border p-4 rounded bg-light shadow-sm">
+    {% csrf_token %}
+    <div class="mb-3">
+      {{ form.as_p }}
+    </div>
+    <button type="submit" class="btn btn-success"> Save </button>
+    <a href="{% url 'edit_tv' tv.id page_number %}" class="btn btn-secondary">Cancel</a>
+  </form>
+</div>
+{% endblock %}

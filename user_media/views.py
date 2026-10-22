@@ -8,9 +8,6 @@ from .openlibraryAPI import *
 from .tmdbAPI import *
 from .rawgAPI import *
 
-#TODO: Build tv, and videogame API files; wire them into the add_<object> functions here and update their individual css.html templates
-#TODO: Wire updated 'full edit' views to templates (Movie, TV, VideoGame)
-
 def hello_world(request):
 	return HttpResponse('Hello, World!<br><br>This is the root page of NerdHoard!')
 
