@@ -2,15 +2,15 @@
 NerdHoard is a Django application for keeping track of your stuff! Never buy a third copy of the same paperback or forget which seasons of a TV show you own again.
 
 Example Book Hoard:
-<img width="1258" height="534" alt="image" src="https://github.com/user-attachments/assets/62b2ff32-6afe-4bb8-9bfe-3de41d661724" />
+<img width="1243" height="662" alt="image" src="https://github.com/user-attachments/assets/b6d8ddcf-39d1-489b-a160-90fe5c0b04a2" />
 
-## What NerdHoard does:
+## NerdHoard Features:
 - Track books, movies, TV shows, and video games you own in one place
 - Search your hoard
 - API connections allow you to search for something and fill the add form in easily (including cover art!)
 - Edit and delete whatever you want
 
-## Setup
+## Setup:
 
 You'll need [conda](https://conda.io/) installed for an isolated environment
 
@@ -57,4 +57,4 @@ python generate_entries.py
 - Built for CSCI-4830 at University of Nebraska Omaha, Fall '26.
 
 ## License
-MIT, see 
+MIT, see [LICENSE](LICENSE) for further detail.
